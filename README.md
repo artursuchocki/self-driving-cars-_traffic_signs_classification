@@ -1,10 +1,8 @@
-#** Traffic Sign Recognition** 
+# Traffic Sign Recognition
 
 In this project, I will use deep neural networks and convolutional neural networks to classify traffic signs. Specifically, I'll train a model to classify traffic signs from the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset).
 
 Download the [dataset](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip). This is a pickled dataset in which there are already resized the images to 32x32.
-
-> **Note**: Here is a [link](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup_template.md) to README.md file describing in details my implementation and results.
 
 ---
 
