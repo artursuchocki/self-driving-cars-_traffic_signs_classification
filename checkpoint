@@ -1,0 +1,3 @@
+model_checkpoint_path: "traffic_signs2.chkp"
+all_model_checkpoint_paths: "traffic_signs.chkp"
+all_model_checkpoint_paths: "traffic_signs2.chkp"
