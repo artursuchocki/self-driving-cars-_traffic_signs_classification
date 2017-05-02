@@ -1,4 +1,4 @@
-#**Traffic Sign Recognition** 
+#** Traffic Sign Recognition** 
 
 In this project, I will use deep neural networks and convolutional neural networks to classify traffic signs. Specifically, I'll train a model to classify traffic signs from the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset).
 
@@ -132,7 +132,7 @@ CNN does a great job in images recognition becouse of their spatial reduction vi
 
 ![alt text][image2]
 
-The images might be difficult to classify because six of them dont' exist in trainng data:
+The images might be difficult to classify because six of them dont' exist in training data:
 * Dead end (No through passing)
 * End of minimum zone (End of 30 km/h minimum speed requirement)
 * Falling stones (Possible falling or fallen rocks)
@@ -140,32 +140,31 @@ The images might be difficult to classify because six of them dont' exist in tra
 * Max width allowed (Width limit (including wing mirrors))
 * No stopping
 
-but I wanted to check how my model will behave in that scenario.
+but I wanted to find out how my model will behave in that scenario.
 
-#### 2.Here are the results of the prediction:
+#### 2. Here are the results of the prediction:
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Children crossing      		| Children crossing   									| 
-| Dead end     			| Go straight or right 										|
-| End of minimum zone					| Keep right											|
-| Falling stones      		| Bumpy Road					 				|
-| Gas_station			| Right-of-way at the next intersection      							|
-| Max width allowed     		| Speed limit (70km/h)   									| 
-| No stopping     			| Priority road 										|
-| Pedestrian crosswalk					| General caution									|
-| Priority road     		| Priority road				 				|
-| Traffic circle			| Speed limit (100km/h)      							|
+| Image			        |     Prediction	        					| Status|
+|:---------------------:|:---------------------------------------------:| :----:|
+| Children crossing      		| Children crossing   									| OK|
+| Dead end     			| Go straight or right 										|Wrong|
+| End of minimum zone					| Keep right											|Wrong|
+| Falling stones      		| Bumpy Road					 				|Wrong|
+| Gas_station			| Right-of-way at the next intersection      							|Wrong|
+| Max width allowed     		| Speed limit (70km/h)   									| Wrong|
+| No stopping     			| Priority road 										|Wrong|
+| Pedestrian crosswalk					| General caution									|Wrong|
+| Priority road     		| Priority road				 				|OK|
+| Traffic circle			| Speed limit (100km/h)      							|Wrong|
 
 
-The model was able to correctly guess 2 of the 10 traffic signs, which gives an accuracy of 20%. This compares favorably to the accuracy on the test set of 93,1% seems to by very bad accuracy. But, as I mentioned above, only four out ten traffic signs exist in training data. Two of them were predicted correctly and two of them had good prediction on the second place:
+The model was able to correctly guess 2 of the 10 traffic signs, which gives an accuracy of 20%. This compares favorably to the accuracy on the test set of 93,1% seems to by very bad accuracy. But, as I mentioned above, only four out of ten traffic signs exist in training data. Two of them were predicted correctly and two of them had good prediction on the second place:
 
 * Pedestrian crosswalk was predictied wrong, but on the second place was correct prediction with 10,12%
 * Traffic circle (Roundabout mandatory) was predictied wrong, but on the second place was correct prediction with 32,19%
 
 
 #### 3. Top 5 softmax probabilities for each image along with the sign type of each probability. 
-
 ![alt text][image1]
 
 
