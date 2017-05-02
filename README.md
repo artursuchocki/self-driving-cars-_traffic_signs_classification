@@ -29,6 +29,8 @@ The goals / steps of this project are the following:
 [image6]: ./writeup_images/hist_y_train.jpg
 [image7]: ./writeup_images/hist_y_valid.jpg
 [image8]: ./writeup_images/predicted_german_signs.jpg
+[image9]: ./writeup_images/accuracy_epochs.jpg
+[image10]: ./writeup_images/loss_epochs.jpg
 
 ---
 ### README
@@ -97,7 +99,9 @@ My final model consisted of the following layers:
 
 #### 3. Training the model
 
-To train the model, I used an AdamOptimizer becouse it computes adaptive learning rates for each parameter. I also used regularization for the loss calculation.L2 regulatization prevents model from overfitting. Values of Learning rate and L2 hyperparam was chosen experimentally. I've trained CNN on my local computer without advanced GPU so I set bach size to 128 and number of epochs to 40. After 20s epochs train and valid accuracy didn't change a lot, having some gap between each other. Probably model is a little bit overfitting even though I've used 2 types of regularization. Next thing I could try would be add more augmentations to images such as brightness, zoom, etc., or try equalising with different approaches, such as using skimage exposure module, or doing a simple (x - mu) / (max - min)
+To train the model, I used an AdamOptimizer becouse it computes adaptive learning rates for each parameter. I also used regularization for the loss calculation.L2 regulatization prevents model from overfitting. Values of Learning rate and L2 hyperparam was chosen experimentally. I've trained CNN on my local computer without advanced GPU so I set bach size to 128 and number of epochs to 40. After 20s epochs train and valid accuracy didn't change a lot, having some gap between each other. 
+![alt text][image9]
+Probably model is a little bit overfitting even though I've used 2 types of regularization. Next thing I could try would be add more augmentations to images such as brightness, zoom, etc., or try equalising with different approaches, such as using skimage exposure module, or doing a simple (x - mu) / (max - min)
 
 
 My final model results were:
@@ -121,6 +125,7 @@ I've added a dropout regularization with keep_prob=0.5 in third and fourth layer
 * Which parameters were tuned? 
 
 I've plotted many times loss over epochs to see whether my learning rate is too big (curve decreases rapidly but then it descreases very slowly) or is too small (curve decreases very slowly over all epochs). The same method I used to tune up L2_param
+![alt text][image10]
 
 * What are some of the important design choices and why were they chosen? 
 
