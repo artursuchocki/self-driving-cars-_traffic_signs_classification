@@ -54,48 +54,50 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 ![alt text][image7]
 ![alt text][image5]
 
-We can see that all data sets have very similar distribution of labels, so it shouldn't influence on accuracy of classifacation. On the other hand, it's worth to notice that some labels have less than few hundred examples so CNN may have lower accuracy on that traffic signs. I assume that this distribution reflects frequency of appearance in normal life so I leave this data sets unchanged.
+We can see that all data sets have very similar distribution of labels, so it shouldn't influence on accuracy of classification. On the other hand, it's worth to notice that some labels have less than few hundred examples so CNN may have lower accuracy on that traffic signs. I assume that this distribution reflects frequency of appearance in normal life so I left this data sets unchanged.
 
 ### Design and Test a Model Architecture
 
 As a first step, I decided to convert the images to grayscale because it reduced my input data size three times (from 3 RGB channels to only one). I've done it by simply averaging the RGB values into one value. But I ended up with no / very few impact on accuracy so I left all images in RGB format.
 
-As a last step, I normalized the image data as follows: new_value = (old_value - 128) / 128. Gradients descen converges much faster on normalized data as well as softmax function do its job much better if the data is normalized with mean 0 and the range -1 to 1.
+Secondly, I normalized the image data as follows: new_value = (old_value - 128) / 128. 
+Gradients descen converges much faster on normalized data as well as softmax function do its job much better if the data is normalized with mean 0 and the range -1 to 1.
 
 I also converted the integer class labels into one-hot encoded labels
 
 Here is an example of an original image:
 ![alt text][image4]
-and an normalized image:
+
+and normalized image:
 ![alt text][image3]
 
 
-#### 2. Describing what my final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) 
+#### 2. Final model architecture (including model type, layers, layer sizes, connectivity, etc.) 
 
 My final model consisted of the following layers:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 5x5     	| 1x1 stride, valid padding, outputs 28x28x6 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
-| Convolution 5x5	    | 1x1 stride, valid padding, outputs 10x10x16       									|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 5x5x16 				|
-| Fully connected		| Input = 400. Output = 120        									|
-| Dropout		| Keep_prob=0.5,  Input = 400. Output = 120    									|
-| RELU					|												|
-| Fully connected		| Input = 120. Output = 84        									|
-| Dropout		| Keep_prob=0.5,  Input = 120. Output = 84    									|
-| RELU					|												|
-| Logits				| Input = 84. Output = 43         									|
+| Layer         		|     Description	        					| Shape |
+|:---------------------:|:---------------------------------------------:| :----:|
+| Input         		| RGB image   							| 32x32x3 |
+| Convolution 5x5     	| 1x1 stride, valid padding 	| 28x28x6 |
+| RELU					|			Activation function			|28x28x6 |
+| Max pooling	      	| 2x2 stride, 2x2 filter 			|14x14x6 	 |
+| Convolution 5x5	    | 1x1 stride, valid padding  | 10x10x16 |
+| RELU					|			Activation function									|10x10x16|
+| Max pooling	      	| 2x2 stride, 2x2 filter				|5x5x16 |
+| Fully connected		| Input = 400. Output = 120        									| 400x120|
+| Dropout		| Keep_prob=0.5,  Input = 400. Output = 120    									| 400x120|
+| RELU					|			Activation function									| 400x120|
+| Fully connected		| Input = 120. Output = 84        									| 120x84|
+| Dropout		| Keep_prob=0.5,  Input = 120. Output = 84    									|120x84|
+| RELU					|				Activation function								|120x84|
+| Logits				| Input = 84. Output = 43         									|84x43|
 
  
 
-#### 3. Describing how I trained your model. The discussion include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Training the model
 
-To train the model, I used an AdamOptimizer becouse it computes adaptive learning rates for each parameter. I also used regularization for the loss calculation.L2 regulatization prevents model from overfitting. Values of Learning rate and L2 hyperparam was chosen experimentally. I've traineg CNN on my local computer without advanced GPU so I set bach size to 128 and number of epochs to 40. After 20s epochs train and valid accuracy didn't change a lot, having some gap between each other. Probably model is a little bit overfitting even though I've used 2 types of regularization. Next thing I could try would be add more augmentations to images such as brightness, zoom, etc., or try equalising with different approaches. Such as using skimage exposure module, or doing a simple (x - mu) / (max - min)
+To train the model, I used an AdamOptimizer becouse it computes adaptive learning rates for each parameter. I also used regularization for the loss calculation.L2 regulatization prevents model from overfitting. Values of Learning rate and L2 hyperparam was chosen experimentally. I've trained CNN on my local computer without advanced GPU so I set bach size to 128 and number of epochs to 40. After 20s epochs train and valid accuracy didn't change a lot, having some gap between each other. Probably model is a little bit overfitting even though I've used 2 types of regularization. Next thing I could try would be add more augmentations to images such as brightness, zoom, etc., or try equalising with different approaches, such as using skimage exposure module, or doing a simple (x - mu) / (max - min)
 
 
 My final model results were:
@@ -105,33 +107,42 @@ My final model results were:
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
+
 The implementation shown in the [LeNet-5](http://yann.lecun.com/exdb/lenet/) seemed like a solid starting point, becouse it does good job in digits recognitions.
 
 * What were some problems with the initial architecture?
+
 Model was overfitting the data so I had to add some kind of regularization.
 
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
+* How was the architecture adjusted and why was it adjusted? T
+
 I've added a dropout regularization with keep_prob=0.5 in third and fourth layer as well as L2 regularization during computing loss value.
 
-* Which parameters were tuned? How were they adjusted and why?
+* Which parameters were tuned? 
+
 I've plotted many times loss over epochs to see whether my learning rate is too big (curve decreases rapidly but then it descreases very slowly) or is too small (curve decreases very slowly over all epochs). The same method I used to tune up L2_param
 
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? 
+* What are some of the important design choices and why were they chosen? 
+
 CNN does a great job in images recognition becouse of their spatial reduction via striding property.
 
 ### Test a Model on New Images
 
-#### 1. Choose ten German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
-
-Here are ten German traffic signs that I found on the web:
+#### 1. Here are ten German traffic signs that I found on the web:
 
 ![alt text][image2]
 
-The first image might be difficult to classify because ...
+The images might be difficult to classify because six of them dont' exist in trainng data:
+* Dead end (No through passing)
+* End of minimum zone (End of 30 km/h minimum speed requirement)
+* Falling stones (Possible falling or fallen rocks)
+* Gas_station (Petrol station with Unleaded fuel)
+* Max width allowed (Width limit (including wing mirrors))
+* No stopping
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+but I wanted to check how my model will behave in that scenario.
 
-Here are the results of the prediction:
+#### 2.Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -140,7 +151,6 @@ Here are the results of the prediction:
 | End of minimum zone					| Keep right											|
 | Falling stones      		| Bumpy Road					 				|
 | Gas_station			| Right-of-way at the next intersection      							|
-
 | Max width allowed     		| Speed limit (70km/h)   									| 
 | No stopping     			| Priority road 										|
 | Pedestrian crosswalk					| General caution									|
@@ -148,21 +158,14 @@ Here are the results of the prediction:
 | Traffic circle			| Speed limit (100km/h)      							|
 
 
-The model was able to correctly guess 2 of the 10 traffic signs, which gives an accuracy of 20%. This compares favorably to the accuracy on the test set of 93,1% seems to by very bad accuracy. Atfer checking the train data set it seems like there aren't traffic signs like:
-* Dead end (No through passing)
-* End of minimum zone (End of 30 km/h minimum speed requirement)
-* Falling stones (Possible falling or fallen rocks)
-* Gas_station (Petrol station with Unleaded fuel)
-* Max width allowed (Width limit (including wing mirrors))
-* No stopping
+The model was able to correctly guess 2 of the 10 traffic signs, which gives an accuracy of 20%. This compares favorably to the accuracy on the test set of 93,1% seems to by very bad accuracy. But, as I mentioned above, only four out ten traffic signs exist in training data. Two of them were predicted correctly and two of them had good prediction on the second place:
 
 * Pedestrian crosswalk was predictied wrong, but on the second place was correct prediction with 10,12%
 * Traffic circle (Roundabout mandatory) was predictied wrong, but on the second place was correct prediction with 32,19%
 
 
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. 
+#### 3. Top 5 softmax probabilities for each image along with the sign type of each probability. 
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were:
 ![alt text][image1]
 
 
